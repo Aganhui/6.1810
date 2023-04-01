@@ -4,6 +4,7 @@
 #include "kernel/fs.h"
 
 //ygh: main framework copy from function:ls
+//ygh: openfile -> stat
 
 struct path_type{
   char *path;
