@@ -11,7 +11,7 @@
 #define PIPESIZE 512
 
 struct pipe {
-  struct spinlock lock;
+  struct spinlock lock;   // ygh: what usage?
   char data[PIPESIZE];
   uint nread;     // number of bytes read
   uint nwrite;    // number of bytes written
