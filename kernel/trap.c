@@ -6,7 +6,7 @@
 #include "proc.h"
 #include "defs.h"
 
-struct spinlock tickslock;
+struct spinlock tickslock;     // ygh: what usage?
 uint ticks;
 
 extern char trampoline[], uservec[], userret[];
