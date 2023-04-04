@@ -8,11 +8,15 @@
 #include "spinlock.h"
 #include "riscv.h"
 #include "defs.h"
+#include "proc.h"
+#include "sysinfo.h"
 
 void freerange(void *pa_start, void *pa_end);
 
 extern char end[]; // first address after kernel.
                    // defined by kernel.ld.
+
+extern struct proc proc[NPROC];
 
 struct run {
   struct run *next;
@@ -22,6 +26,25 @@ struct {
   struct spinlock lock;
   struct run *freelist;
 } kmem;
+
+int
+sysinfo(struct sysinfo *info_){
+  int procnum = 0;
+  for(int i=0; i<NPROC; i++){
+    if(proc[i].state != UNUSED)
+      procnum++;
+  }
+  info_->nproc = procnum;
+  int pagenum = 0;
+  struct run *r;
+  r = kmem.freelist;
+  while(r){
+    pagenum++;
+    r = r->next;
+  }
+  info_->freemem = pagenum * PGSIZE;
+  return 0;
+}
 
 void
 kinit()

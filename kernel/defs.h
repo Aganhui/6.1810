@@ -8,6 +8,8 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct sysinfo;
+struct run;
 
 // bio.c
 void            binit(void);
@@ -83,6 +85,7 @@ void            printfinit(void);
 
 // proc.c
 int             cpuid(void);
+int             sysinfo(struct sysinfo *);
 void            exit(int);
 int             fork(void);
 int             trace(int);

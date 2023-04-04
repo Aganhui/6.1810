@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -19,6 +20,23 @@ uint64
 sys_getpid(void)
 {
   return myproc()->pid;
+}
+
+uint64
+sys_sysinfo(void){
+  struct sysinfo info;
+  struct proc *p = myproc();
+  uint64 addr; // user pointer to struct sysinfo
+
+  argaddr(0, &addr);
+  if(sysinfo(&info) < 0){
+    return -1;
+  }else {
+    //copyout
+    if(copyout(p->pagetable, addr, (char *)&info, sizeof(info)) < 0)
+      return -1;
+    return 0;
+  }
 }
 
 uint64
